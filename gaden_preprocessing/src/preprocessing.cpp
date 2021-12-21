@@ -611,12 +611,19 @@ void openFoam_to_gaden(std::string filename)
 				line.erase(0, pos + 1);
 			}
 			//assign each of the points we have information about to the nearest cell
-			x_idx = (int)roundf((v[3] - env_min_x) / cell_size*roundFactor)/roundFactor;
-			y_idx = (int)roundf((v[4] - env_min_y) / cell_size*roundFactor)/roundFactor;
-			z_idx = (int)roundf((v[5] - env_min_z) / cell_size*roundFactor)/roundFactor;
-			U[ indexFrom3D(x_idx, y_idx,z_idx) ] = v[0];
-			V[ indexFrom3D(x_idx, y_idx,z_idx) ] = v[1];
-			W[ indexFrom3D(x_idx, y_idx,z_idx) ] = v[2];
+			// x_idx = (int)roundf((v[3] - env_min_x) / cell_size*roundFactor)/roundFactor;
+			// y_idx = (int)roundf((v[4] - env_min_y) / cell_size*roundFactor)/roundFactor;
+			// z_idx = (int)roundf((v[5] - env_min_z) / cell_size*roundFactor)/roundFactor;
+			// U[ indexFrom3D(x_idx, y_idx,z_idx) ] = v[0];
+			// V[ indexFrom3D(x_idx, y_idx,z_idx) ] = v[1];
+			// W[ indexFrom3D(x_idx, y_idx,z_idx) ] = v[2];
+
+            x_idx = (int)roundf((v[0] - env_min_x) / cell_size*roundFactor)/roundFactor;
+			y_idx = (int)roundf((v[1] - env_min_y) / cell_size*roundFactor)/roundFactor;
+			z_idx = (int)roundf((v[2] - env_min_z) / cell_size*roundFactor)/roundFactor;
+			U[ indexFrom3D(x_idx, y_idx,z_idx) ] = v[3];
+			V[ indexFrom3D(x_idx, y_idx,z_idx) ] = v[4];
+			W[ indexFrom3D(x_idx, y_idx,z_idx) ] = v[5];
 		}
 	}
     infile.close();
@@ -828,9 +835,13 @@ int main(int argc, char **argv){
                     for(int k = 0; k< env[0][0].size();k++){
                         if(env[j][i][k]==cell_state::empty){
                            
-                            U[ indexFrom3D(i, j, k) ] = v[0];
-                            V[ indexFrom3D(i, j, k) ] = v[1];
-                            W[ indexFrom3D(i, j, k) ] = v[2];
+                            // U[ indexFrom3D(i, j, k) ] = v[0];
+                            // V[ indexFrom3D(i, j, k) ] = v[1];
+                            // W[ indexFrom3D(i, j, k) ] = v[2];
+
+                            U[ indexFrom3D(i, j, k) ] = v[3];
+                            V[ indexFrom3D(i, j, k) ] = v[4];
+                            W[ indexFrom3D(i, j, k) ] = v[5];
                         }
                     }
                 }

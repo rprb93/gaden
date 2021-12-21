@@ -1042,6 +1042,9 @@ int main(int argc, char **argv)
 			}
 	    }
 
+		std::cout<< "Process:" << sim.current_simulation_step << " / " << sim.numSteps << "\n";
+
+
 		//5. Update Simulation state
 		sim.sim_time = sim.sim_time + sim.time_step;	//sec
 		sim.current_simulation_step++;

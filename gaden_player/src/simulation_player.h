@@ -23,7 +23,7 @@
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/iostreams/copy.hpp>
-
+#include <boost/format.hpp>
 struct Vec4{
     public:
         double x, y, z, w;
