@@ -3,8 +3,7 @@
 <launch>  
     
     <arg name="scenario" default="River211121" />
-    <arg name="simulation" default="100_10_100" />
-
+    <arg name="simulation" default="10_10_100" />
     <!-- # OdorSource 1
     <arg name="source_location_x" default="-25.00" />
     <arg name="source_location_y" default="-115.00" />
@@ -13,19 +12,18 @@
     <arg name="source_location_x" default="-210.00" />
     <arg name="source_location_y" default="130.00" />
     <arg name="source_location_z" default="-4.00" /> -->
-    <!-- # OdorSource 3
+    # OdorSource 3
     <arg name="source_location_x" default="-358.00" />
     <arg name="source_location_y" default="322.00" />
-    <arg name="source_location_z" default="-4.00" /> -->
-    # OdorSource 4
+    <arg name="source_location_z" default="-4.00" />
+    <!-- # OdorSource 4
     <arg name="source_location_x" default="-220.00" />
     <arg name="source_location_y" default="-43.00" />
-    <arg name="source_location_z" default="-4.00" />
+    <arg name="source_location_z" default="-4.00" /> -->
     <!-- # OdorSource 5 (teste a 0 de altura)
     <arg name="source_location_x" default="-25.00" />
     <arg name="source_location_y" default="-115.00" />
     <arg name="source_location_z" default="-1.00" /> -->
-
     ### NODE environment (for RVIZ visualization) ###
     
      ### NODE environment (for RVIZ visualization) ###
@@ -56,33 +54,6 @@
             CAD_5_color: [0.92, 0.96, 0.96]
 
         </rosparam>
-
-        <!-- <rosparam subst_value="True">
-            CAD_0: package://test_env/$(arg scenario)/cad_models/island01.stl
-            CAD_0_color: [0.92, 0.96, 0.96]
-
-            CAD_1: package://test_env/$(arg scenario)/cad_models/island02.stl
-            CAD_1_color: [0.92, 0.96, 0.96]
-
-            CAD_2: package://test_env/$(arg scenario)/cad_models/island03.stl
-            CAD_2_color: [0.92, 0.96, 0.96]
-
-            CAD_3: package://test_env/$(arg scenario)/cad_models/land01.stl
-            CAD_3_color: [0.92, 0.96, 0.96]
-
-            CAD_4: package://test_env/$(arg scenario)/cad_models/land02.stl
-            CAD_4_color: [0.92, 0.96, 0.96]
-
-            CAD_5: package://test_env/$(arg scenario)/cad_models/land03.stl
-            CAD_5_color: [0.92, 0.96, 0.96]
-
-            CAD_6: package://test_env/$(arg scenario)/cad_models/waterTop.stl
-            CAD_6_color: [0.92, 0.96, 0.96]
-
-            CAD_7: package://test_env/$(arg scenario)/cad_models/waterBottom.stl
-            CAD_7_color: [0.92, 0.96, 0.96]
-
-        </rosparam> -->
 	            
         # Plot 3D OccupancyGridmap
         <param name="occupancy3D_data" value="$(find test_env)/$(arg scenario)/OccupancyGrid3D.csv" />
