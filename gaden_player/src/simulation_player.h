@@ -120,7 +120,9 @@ std::vector<std::string>        srv_response_gas_types;
 std::vector<double>             srv_response_gas_concs;
 int                             initial_iteration, loop_from_iteration, loop_to_iteration;
 bool                            allow_looping;
-std::string occupancyFile;
+std::string                     occupancyFile;
+std::string                     fixed_frame;
+double                          scale_filament;
 
 //Visualization
 ros::Publisher                  marker_pub;
