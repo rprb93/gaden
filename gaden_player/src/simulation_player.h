@@ -23,7 +23,7 @@
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/iostreams/copy.hpp>
-
+#include <boost/format.hpp>
 struct Vec4{
     public:
         double x, y, z, w;
@@ -120,7 +120,9 @@ std::vector<std::string>        srv_response_gas_types;
 std::vector<double>             srv_response_gas_concs;
 int                             initial_iteration, loop_from_iteration, loop_to_iteration;
 bool                            allow_looping;
-std::string occupancyFile;
+std::string                     occupancyFile;
+std::string                     fixed_frame;
+double                          scale_filament;
 
 //Visualization
 ros::Publisher                  marker_pub;

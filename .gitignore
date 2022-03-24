@@ -3,6 +3,8 @@
 *.pyc
 *.user
 *.gz
+*.DS_Store
+*._.DS_Store
 
 # Avoid gas_simulations
 test_env/*/gas_simulations/*
@@ -13,12 +15,13 @@ test_env/*/*.yaml
 test_env/*/*.csv
 
 # Avoid PostProcessed Wind Data
-test_env/*/wind_simulations/**/*.foam
-test_env/*/wind_simulations/**/*.csv_U
-test_env/*/wind_simulations/**/*.csv_V
-test_env/*/wind_simulations/**/*.csv_W
-test_env/*/wind_simulations/**/constant
-test_env/*/wind_simulations/**/system
+# test_env/*/wind_simulations/**/*.foam
+# test_env/*/wind_simulations/**/*.csv_U
+# test_env/*/wind_simulations/**/*.csv_V
+# test_env/*/wind_simulations/**/*.csv_W
+# test_env/*/wind_simulations/**/constant
+# test_env/*/wind_simulations/**/system
+test_env/*/wind_simulations/**
 
 # qcreator stuff
 CMakeLists.txt.user

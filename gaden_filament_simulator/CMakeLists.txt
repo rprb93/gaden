@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 2.8.3...3.13)
 project(gaden_filament_simulator CXX)
 
 set(CMAKE_CXX_FLAGS "-lboost_iostreams -std=c++11 -fopenmp ${CMAKE_CXX_FLAGS}")

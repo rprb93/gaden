@@ -73,15 +73,15 @@ int main( int argc, char** argv )
     srand(time(NULL));// initialize random seed
 
     //Init Markers for RVIZ visualization
-    mkr_gas_points.header.frame_id = "/map";
+    mkr_gas_points.header.frame_id = fixed_frame;
     mkr_gas_points.header.stamp = ros::Time::now();
     mkr_gas_points.ns = "Gas_Dispersion";
     mkr_gas_points.action = visualization_msgs::Marker::ADD;
     mkr_gas_points.type = visualization_msgs::Marker::POINTS;   //Marker type
     mkr_gas_points.id = 0;                                      //One marker with multiple points.
-    mkr_gas_points.scale.x = 0.025;
-    mkr_gas_points.scale.y = 0.025;
-    mkr_gas_points.scale.z = 0.025;
+    mkr_gas_points.scale.x = scale_filament;
+    mkr_gas_points.scale.y = scale_filament;
+    mkr_gas_points.scale.z = scale_filament;
     mkr_gas_points.pose.orientation.w = 1.0;
 
 
@@ -90,6 +90,7 @@ int main( int argc, char** argv )
     int iteration_counter = initial_iteration;
     while (ros::ok())
     {        
+        // ROS_INFO("Time: %f:%ld\n",  (ros::Time::now() - time_last_loaded_file).toSec(), (ros::Time::now() - time_last_loaded_file).toNSec());
         if( (ros::Time::now() - time_last_loaded_file).toSec() >= 1/player_freq )
         {
             if (verbose)
@@ -157,6 +158,8 @@ void loadNodeParameters(ros::NodeHandle private_nh)
     private_nh.param<bool>("allow_looping", allow_looping, false);
     private_nh.param<int>("loop_from_iteration", loop_from_iteration, 1);
     private_nh.param<int>("loop_to_iteration", loop_to_iteration, 1);
+    private_nh.param<std::string>("fixed_frame", fixed_frame, "");
+    private_nh.param<double>("scale_filament", scale_filament, 0.1);
     
 }
 
@@ -466,6 +469,10 @@ void sim_obj::get_gas_concentration(float x, float y, float z, std::string &gas_
         || y<env_min_y|| y>env_max_y
         || z<env_min_z|| z>env_max_z)
     {
+        ROS_INFO("SensorPosition: [%f,%f,%f]\n", x, y, z);
+        ROS_INFO("EnvX: [%f,%f]\n", env_min_x, env_max_x);
+        ROS_INFO("EnvY: [%f,%f]\n", env_min_y, env_max_y);
+        ROS_INFO("EnvZ: [%f,%f]\n", env_min_z, env_max_z);
         ROS_ERROR("Requested gas concentration at a point outside the environment. Are you using the correct coordinates?\n");
         return;
     }
