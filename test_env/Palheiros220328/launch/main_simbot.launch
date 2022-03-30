@@ -1,9 +1,9 @@
 <!-- mission file for GADEN player -->
 
 <launch>
-    <arg name="gadenPATH" default="/media/rprb/Data1TB/GADEN" />
-    <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" />
-    <arg name="datasetWind" default="sim_1ms/palh_1ms_" />
+    <arg name="gadenPATH" default="/media/hm/Novo volume/src/gaden/test_env" />
+    <!-- <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" /> -->
+    <!-- <arg name="datasetWind" default="sim_1ms/palh_1ms_" /> -->
     <arg name="scenario" default="Palheiros220328" />
     <arg name="simulation" default="10_30_100_50_02" />
 
@@ -13,7 +13,7 @@
     <arg name="source_location_z" default="3.00" />
 
 
-    <node name="map_server" pkg="map_server" type="map_server" args="$(arg gadenPATH)/$(arg scenario)_robot/occupancy.yaml">
+    <node name="map_server" pkg="map_server" type="map_server" args="$(find test_env)/$(arg scenario)/occupancy.yaml">
       <param name="frame_id" value="occ_map"/>
     </node>
 
@@ -81,7 +81,7 @@
     </node>
 
 
-
+  <!-- ######################     CHEMICAL SENSORS ########################################## -->
   <!-- Boat1 sensors -->
   <group ns="boat1/PID1">
     <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat1_PID1" output="screen">
@@ -254,12 +254,170 @@
 
 
 
+  <!-- Boat4 sensors -->
+  <group ns="boat4/PID1">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat4_PID1" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat4_pid1_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_pid1_broadcaster" args="0.0 0.0 0.5 0 0 0 boat4_local_base_link boat4_pid1_frame 100" />
+
+  <group ns="boat4/PID2">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat4_PID2" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat4_pid2_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_pid2_broadcaster" args="0.0 0.0 1.5 0 0 0 boat4_local_base_link boat4_pid2_frame 100" />
+
+  <group ns="boat4/PID3">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat4_PID3" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat4_pid3_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_pid3_broadcaster" args="0.0 0.0 2.5 0 0 0 boat4_local_base_link boat4_pid3_frame 100" />
+
+  <group ns="boat4/PID4">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat4_PID4" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat4_pid4_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_pid4_broadcaster" args="0.0 0.0 3.5 0 0 0 boat4_local_base_link boat4_pid4_frame 100" />
+
+  <group ns="boat4/PID5">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat4_PID5" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat4_pid5_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_pid5_broadcaster" args="0.0 0.0 4.5 0 0 0 boat4_local_base_link boat4_pid5_frame 100" />
 
 
 
 
 
 
+  <!-- Boat5 sensors -->
+  <group ns="boat5/PID1">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat5_PID1" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat5_pid1_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_pid1_broadcaster" args="0.0 0.0 0.5 0 0 0 boat5_local_base_link boat5_pid1_frame 100" />
+
+  <group ns="boat5/PID2">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat5_PID2" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat5_pid2_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_pid2_broadcaster" args="0.0 0.0 1.5 0 0 0 boat5_local_base_link boat5_pid2_frame 100" />
+
+  <group ns="boat5/PID3">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat5_PID3" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat5_pid3_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_pid3_broadcaster" args="0.0 0.0 2.5 0 0 0 boat5_local_base_link boat5_pid3_frame 100" />
+
+  <group ns="boat5/PID4">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat5_PID4" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat5_pid4_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_pid4_broadcaster" args="0.0 0.0 3.5 0 0 0 boat5_local_base_link boat5_pid4_frame 100" />
+
+  <group ns="boat5/PID5">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat5_PID5" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat5_pid5_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_pid5_broadcaster" args="0.0 0.0 4.5 0 0 0 boat5_local_base_link boat5_pid5_frame 100" />
+
+
+
+
+  <!-- Boat6 sensors -->
+  <group ns="boat6/PID1">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat6_PID1" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat6_pid1_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_pid1_broadcaster" args="0.0 0.0 0.5 0 0 0 boat6_local_base_link boat6_pid1_frame 100" />
+
+  <group ns="boat6/PID2">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat6_PID2" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat6_pid2_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_pid2_broadcaster" args="0.0 0.0 1.5 0 0 0 boat6_local_base_link boat6_pid2_frame 100" />
+
+  <group ns="boat6/PID3">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat6_PID3" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat6_pid3_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_pid3_broadcaster" args="0.0 0.0 2.5 0 0 0 boat6_local_base_link boat6_pid3_frame 100" />
+
+  <group ns="boat6/PID4">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat6_PID4" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat6_pid4_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_pid4_broadcaster" args="0.0 0.0 3.5 0 0 0 boat6_local_base_link boat6_pid4_frame 100" />
+
+  <group ns="boat6/PID5">
+    <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="boat6_PID5" output="screen">
+        <param name="/sensor_model" value="30" />
+        <param name="/sensor_frame" value="boat6_pid5_frame" />
+        <param name="/fixed_frame" value="local_map"/>
+        <param name="/noise_std" value="0.0"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_pid5_broadcaster" args="0.0 0.0 4.5 0 0 0 boat6_local_base_link boat6_pid5_frame 100" />
+
+
+
+  <!-- ######################     FLUID SENSORS ########################################## -->
   <!-- Boat1 sensors -->
   <group ns="boat1/Anemometer1">
     <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat1_anemometer1" output="screen">
@@ -424,5 +582,171 @@
     </node>
   </group>
   <node pkg="tf" type="static_transform_publisher" name="boat3_anemometer5_broadcaster" args="0.0 0.0 4.5 0 0 0 boat3_local_base_link boat3_anemometer5_frame 100" />
+
+
+
+
+  <!-- Boat4 sensors -->
+  <group ns="boat4/Anemometer1">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat4_anemometer1" output="screen">
+      <param name="/sensor_frame" value="boat4_anemometer1_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_anemometer1_broadcaster" args="0.0 0.0 0.5 0 0 0 boat4_local_base_link boat4_anemometer1_frame 100" />
+
+  <group ns="boat4/Anemometer2">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat4_anemometer2" output="screen">
+      <param name="/sensor_frame" value="boat4_anemometer2_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_anemometer2_broadcaster" args="0.0 0.0 1.5 0 0 0 boat4_local_base_link boat4_anemometer2_frame 100" />
+
+  <group ns="boat4/Anemometer3">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat4_anemometer1" output="screen">
+      <param name="/sensor_frame" value="boat4_anemometer3_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_anemometer3_broadcaster" args="0.0 0.0 2.5 0 0 0 boat4_local_base_link boat4_anemometer3_frame 100" />
+
+  <group ns="boat4/Anemometer4">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat4_anemometer4" output="screen">
+      <param name="/sensor_frame" value="boat4_anemometer4_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_anemometer4_broadcaster" args="0.0 0.0 3.5 0 0 0 boat4_local_base_link boat4_anemometer4_frame 100" />
+
+  <group ns="boat4/Anemometer5">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat4_anemometer5" output="screen">
+      <param name="/sensor_frame" value="boat4_anemometer5_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat4_anemometer5_broadcaster" args="0.0 0.0 4.5 0 0 0 boat4_local_base_link boat4_anemometer5_frame 100" />
+
+
+
+
+
+  <!-- Boat5 sensors -->
+  <group ns="boat5/Anemometer1">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat5_anemometer1" output="screen">
+      <param name="/sensor_frame" value="boat5_anemometer1_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_anemometer1_broadcaster" args="0.0 0.0 0.5 0 0 0 boat5_local_base_link boat5_anemometer1_frame 100" />
+
+  <group ns="boat5/Anemometer2">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat5_anemometer2" output="screen">
+      <param name="/sensor_frame" value="boat5_anemometer2_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_anemometer2_broadcaster" args="0.0 0.0 1.5 0 0 0 boat5_local_base_link boat5_anemometer2_frame 100" />
+
+  <group ns="boat5/Anemometer3">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat5_anemometer1" output="screen">
+      <param name="/sensor_frame" value="boat5_anemometer3_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_anemometer3_broadcaster" args="0.0 0.0 2.5 0 0 0 boat5_local_base_link boat5_anemometer3_frame 100" />
+
+  <group ns="boat5/Anemometer4">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat5_anemometer4" output="screen">
+      <param name="/sensor_frame" value="boat5_anemometer4_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_anemometer4_broadcaster" args="0.0 0.0 3.5 0 0 0 boat5_local_base_link boat5_anemometer4_frame 100" />
+
+  <group ns="boat5/Anemometer5">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat5_anemometer5" output="screen">
+      <param name="/sensor_frame" value="boat5_anemometer5_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat5_anemometer5_broadcaster" args="0.0 0.0 4.5 0 0 0 boat5_local_base_link boat5_anemometer5_frame 100" />
+
+
+
+
+
+
+
+  <!-- Boat6 sensors -->
+  <group ns="boat6/Anemometer1">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat6_anemometer1" output="screen">
+      <param name="/sensor_frame" value="boat6_anemometer1_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_anemometer1_broadcaster" args="0.0 0.0 0.5 0 0 0 boat6_local_base_link boat6_anemometer1_frame 100" />
+
+  <group ns="boat6/Anemometer2">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat6_anemometer2" output="screen">
+      <param name="/sensor_frame" value="boat6_anemometer2_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_anemometer2_broadcaster" args="0.0 0.0 1.5 0 0 0 boat6_local_base_link boat6_anemometer2_frame 100" />
+
+  <group ns="boat6/Anemometer3">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat6_anemometer1" output="screen">
+      <param name="/sensor_frame" value="boat6_anemometer3_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_anemometer3_broadcaster" args="0.0 0.0 2.5 0 0 0 boat6_local_base_link boat6_anemometer3_frame 100" />
+
+  <group ns="boat6/Anemometer4">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat6_anemometer4" output="screen">
+      <param name="/sensor_frame" value="boat6_anemometer4_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_anemometer4_broadcaster" args="0.0 0.0 3.5 0 0 0 boat6_local_base_link boat6_anemometer4_frame 100" />
+
+  <group ns="boat6/Anemometer5">
+    <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat6_anemometer5" output="screen">
+      <param name="/sensor_frame" value="boat6_anemometer5_frame" />
+      <param name="/fixed_frame" value="local_map"/>
+      <param name="/noise_std" value="0.0"/>
+      <param name="/use_map_ref_system" value="false"/>
+    </node>
+  </group>
+  <node pkg="tf" type="static_transform_publisher" name="boat6_anemometer5_broadcaster" args="0.0 0.0 4.5 0 0 0 boat6_local_base_link boat6_anemometer5_frame 100" />
 
 </launch>
