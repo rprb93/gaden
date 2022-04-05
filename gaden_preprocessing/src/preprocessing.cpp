@@ -179,6 +179,11 @@ void printWind(std::vector<double> U,
     fileU.close();
     fileV.close();
     fileW.close();
+
+    std::cout<< boost::str(boost::format("%s_U") % filename).c_str() << "\n";
+    std::cout<< boost::str(boost::format("%s_V") % filename).c_str() << "\n";
+    std::cout<< boost::str(boost::format("%s_W") % filename).c_str() << "\n";
+
 }
 
 void printYaml(std::string output){
@@ -586,7 +591,6 @@ int indexFrom3D(int x, int y, int z){
 
 void openFoam_to_gaden(std::string filename)
 {
-
 	//let's parse the file
 	std::ifstream infile(filename.c_str());
 	std::string line;
@@ -794,6 +798,7 @@ int main(int argc, char **argv){
     if(worldFile!="")
         changeWorldFile(worldFile);
 
+
     //output - path, occupancy vector, scale
     printEnv(boost::str(boost::format("%s/OccupancyGrid3D.csv") % output.c_str()), 1);
     printYaml(output);
@@ -813,9 +818,9 @@ int main(int argc, char **argv){
     int idx = 0;
 
     if(uniformWind){
-        
         //let's parse the file
         std::ifstream infile(windFileName);
+
         std::string line;
 
         std::vector<double> U(env[0].size()*env.size()*env[0][0].size());
@@ -853,6 +858,7 @@ int main(int argc, char **argv){
     }else{
         while (FILE *file = fopen(boost::str(boost::format("%s_%i.csv") % windFileName % idx).c_str(), "r"))
         {
+            std::cout<< boost::str(boost::format("%s_%i.csv") % windFileName % idx).c_str() << "\n";
             fclose(file);
             openFoam_to_gaden(boost::str(boost::format("%s_%i.csv") % windFileName % idx).c_str());
             idx++;
