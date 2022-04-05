@@ -136,7 +136,29 @@ protected:
     bool wind_notified;    
     int last_wind_idx=-1;
     // SpecificGravity [dimensionless] with respect AIR
-    double SpecificGravity[10];
+    double SpecificGravity[14] = {
+
+        // Molecular gas mass [g/mol]
+        // SpecificGravity(Air) = 1 (as reference)
+        // Specific gravity is the ratio of the density of a substance to the density of a reference substance; equivalently,
+        // it is the ratio of the mass of a substance to the mass of a reference substance for the same given volume.
+        1.0378,	  //ethanol   (heavier than air)
+        0.5537,	  //methane   (lighter than air)
+        0.0696,	  //hydrogen  (lighter than air)
+        1.4529,	  //acetone   (heavier than air)
+
+        //To be updated
+        1.23,	 //propanol   //gases heavier then air
+        2.48,	 //chlorine
+        1.31,	 //fluorine
+        0.7,	 //neon	   //gases lighter than air
+        0.138,   //helium
+        0.8, //sewage, biogas
+        2.0061, //butane
+        0.967, //carbon monoxide
+        1.52, //carbon dioxide
+        0.89 //smoke
+    };
 
     //Fluid Dynamics
     double filament_initial_vol;

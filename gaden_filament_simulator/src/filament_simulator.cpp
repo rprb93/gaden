@@ -107,22 +107,6 @@ CFilamentSimulator::CFilamentSimulator()
     if (verbose) ROS_INFO("[filament] env_cell_numMoles [mol]: %E",env_cell_numMoles);
     if (verbose) ROS_INFO("[filament] filament_numMoles_of_gas [mol]: %E",filament_numMoles_of_gas);
 
-	// Molecular gas mass [g/mol]
-	// SpecificGravity(Air) = 1 (as reference)
-	// Specific gravity is the ratio of the density of a substance to the density of a reference substance; equivalently,
-	// it is the ratio of the mass of a substance to the mass of a reference substance for the same given volume.
-	SpecificGravity[0] = 1.0378;	  //ethanol   (heavier than air)
-    SpecificGravity[1] = 0.5537;	  //methane   (lighter than air)
-	SpecificGravity[2] = 0.0696;	  //hydrogen  (lighter than air)
-	SpecificGravity[6] = 1.4529;	  //acetone   (heavier than air)
-
-	//To be updated
-	SpecificGravity[3] = 58.124;	 //propanol   //gases heavier then air
-	SpecificGravity[4] = 70.906;	 //chlorine
-	SpecificGravity[5] = 37.996;	 //fluorine
-	SpecificGravity[7] = 20.179;	 //neon	   //gases lighter than air
-	SpecificGravity[8] = 4.002602;   //helium
-	SpecificGravity[9] = 26.966;	 //hot_air
 
 
 	//Init visualization
