@@ -491,7 +491,6 @@ void parse(std::string filename, cell_state value_to_write){
     
     //OK, we have read the data, let's do something with it
     occupy(triangles, normals, value_to_write);
-
 }
 
 void findDimensions(std::string filename){
@@ -743,6 +742,7 @@ int main(int argc, char **argv){
     ros::Time start = ros::Time::now();
     for (int i = 0; i < numModels; i++)
     {
+        std::cout << CADfiles[i] << std::endl;
         parse(CADfiles[i], cell_state::occupied);
     }
       
@@ -771,6 +771,7 @@ int main(int argc, char **argv){
     }
 
     for (int i=0;i<numOutletModels; i++){
+        std::cout << outletFiles[i] << std::endl;
         parse(outletFiles[i], cell_state::outlet);
     }  
 
