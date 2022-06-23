@@ -238,7 +238,7 @@ void CFilamentSimulator::loadNodeParameters()
     if (verbose)
     {
         ROS_INFO("[filament] The data provided in the roslaunch file is:");
-        ROS_INFO("[filament] Simulation Time        %f(s)",sim_time);
+        ROS_INFO("[filament] Simulation Time        %f(s)",max_sim_time);
         ROS_INFO("[filament] Gas Time Step:         %f(s)",time_step);
         ROS_INFO("[filament] Num_steps:             %d",numSteps);
         ROS_INFO("[filament] Number of filaments:   %d",numFilaments_sec);
@@ -309,6 +309,8 @@ void CFilamentSimulator::read_wind_snapshot(int idx)
 	std::string W_filename = boost::str( boost::format("%s%i.csv_W") % wind_files_location % idx );
 
     if (verbose) ROS_INFO("Reading Wind Snapshot %s",U_filename.c_str());
+
+	std::cout<< boost::str( boost::format("Reading Wind Snapshot %s") % U_filename.c_str()) << "\n";
 
     //read data to 3D matrices
 	if (FILE *file = fopen(U_filename.c_str(), "r"))

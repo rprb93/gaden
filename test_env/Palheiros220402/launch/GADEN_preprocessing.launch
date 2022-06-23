@@ -1,0 +1,38 @@
+<!-- Mission file for GADEN preprocessing
+    ROS - KINETIC
+-->
+
+<launch>
+    <arg name="gadenPATH" default="/media/rprb-data1TB/GADEN" />
+    <arg name="cfdPATH" default="/media/rprb-data1TB/CFD" />
+    <arg name="datasetWind" default="sim_1ms/palh220402" />
+    <arg name="scenario" default="Palheiros220402" />
+    
+    <node pkg="gaden_preprocessing" type="preprocessing" name="preprocessing" output="screen" >
+     
+        #Cell size
+        <param name="cell_size" value="2"/>    
+        
+        #CAD models of the enviroment (.stl)
+        <param name="number_of_models" value="2"/>
+        <param name="model_0" value="$(arg gadenPATH)/$(arg scenario)/cad_models/heightmap.stl"/>
+        <param name="model_1" value="$(arg gadenPATH)/$(arg scenario)/cad_models/inner_water.stl"/>
+                
+        #CAD model of the outlets (.stl)
+        <param name="number_of_outlet_models" value="2"/>
+        <param name="outlets_model_0" value="$(arg gadenPATH)/$(arg scenario)/cad_models/outlet_air_x.stl"/>
+        <param name="outlets_model_1" value="$(arg gadenPATH)/$(arg scenario)/cad_models/outlet_air_y.stl"/>
+        
+        #3D Location of a point in free-space
+        <param name="empty_point_x" value="-90"/>      ### (m)
+        <param name="empty_point_y" value="670"/>      ### (m)
+        <param name="empty_point_z" value="-10"/>      ### (m)
+            
+
+        #Wind Data (the node will append _i.csv to the name that is specified here)
+        <param name="wind_files" value="$(arg cfdPATH)/$(arg scenario)/Paraview/$(arg datasetWind)"/>
+
+        #Where to write the output files
+        <param name="output_path" value="$(arg gadenPATH)/$(arg scenario)" />
+    </node>
+</launch>

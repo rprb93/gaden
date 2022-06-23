@@ -174,6 +174,11 @@ void printWind(std::vector<double> U,
     fileU.close();
     fileV.close();
     fileW.close();
+
+    std::cout<< boost::str(boost::format("%s_U") % filename).c_str() << "\n";
+    std::cout<< boost::str(boost::format("%s_V") % filename).c_str() << "\n";
+    std::cout<< boost::str(boost::format("%s_W") % filename).c_str() << "\n";
+
 }
 
 void printYaml(std::string output){
@@ -486,7 +491,6 @@ void parse(std::string filename, cell_state value_to_write){
     
     //OK, we have read the data, let's do something with it
     occupy(triangles, normals, value_to_write);
-
 }
 
 void findDimensions(std::string filename){
@@ -581,7 +585,6 @@ int indexFrom3D(int x, int y, int z){
 
 void openFoam_to_gaden(std::string filename)
 {
-
 	//let's parse the file
 	std::ifstream infile(filename.c_str());
 	std::string line;
@@ -739,6 +742,7 @@ int main(int argc, char **argv){
     ros::Time start = ros::Time::now();
     for (int i = 0; i < numModels; i++)
     {
+        std::cout << CADfiles[i] << std::endl;
         parse(CADfiles[i], cell_state::occupied);
     }
       
@@ -767,6 +771,7 @@ int main(int argc, char **argv){
     }
 
     for (int i=0;i<numOutletModels; i++){
+        std::cout << outletFiles[i] << std::endl;
         parse(outletFiles[i], cell_state::outlet);
     }  
 
@@ -789,6 +794,7 @@ int main(int argc, char **argv){
     if(worldFile!="")
         changeWorldFile(worldFile);
 
+
     //output - path, occupancy vector, scale
     printEnv(boost::str(boost::format("%s/OccupancyGrid3D.csv") % output.c_str()));
     printYaml(output);
@@ -808,9 +814,9 @@ int main(int argc, char **argv){
     int idx = 0;
 
     if(uniformWind){
-        
         //let's parse the file
         std::ifstream infile(windFileName);
+
         std::string line;
 
         std::vector<double> U(env[0].size()*env.size()*env[0][0].size());
@@ -848,6 +854,7 @@ int main(int argc, char **argv){
     }else{
         while (FILE *file = fopen(boost::str(boost::format("%s_%i.csv") % windFileName % idx).c_str(), "r"))
         {
+            std::cout<< boost::str(boost::format("%s_%i.csv") % windFileName % idx).c_str() << "\n";
             fclose(file);
             openFoam_to_gaden(boost::str(boost::format("%s_%i.csv") % windFileName % idx).c_str());
             idx++;
