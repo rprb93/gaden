@@ -788,7 +788,7 @@ void sim_obj::get_concentration_as_markers(visualization_msgs::Marker &mkr_point
 
                 if(concentration_from_filament(p.x, p.y, p.z, filament) > conc_threshold){
 
-                    color.a=1;
+                    color.a=0.1;
                     color.r=0;
                     color.g=1;
                     color.b=0;
