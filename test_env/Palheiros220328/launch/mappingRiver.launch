@@ -1,0 +1,266 @@
+<!-- mission file for GADEN player -->
+
+<launch>
+  <arg name="gadenPATH" default="/media/rprb/Data1TB/GADEN" />
+  <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" />
+  <arg name="datasetWind" default="sim_1ms/palh_1ms_" />
+  <arg name="scenario" default="Palheiros220328" />
+  <arg name="simulation" default="1000_45_10_9000_0001" />
+  <!-- <arg name="simulation" default="1000_27_10_180_0001" /> -->
+  
+
+  # OdorSource 1
+  <arg name="source_location_x" default="-82.50" />
+  <arg name="source_location_y" default="170.00" />
+  <arg name="source_location_z" default="3.00" />
+
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg gadenPATH)/$(arg scenario)_robot/occupancy.yaml">
+    <param name="frame_id" value="occ_map"/>
+  </node>
+
+  <node pkg="tf" type="static_transform_publisher" name="occ_broadcaster" args="0 0 0 0 0 0 local_map occ_map 100" />
+
+
+  ### RVIZ ###
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find test_env)/$(arg scenario)/launch/mappingRiver.rviz"/>
+
+
+  ### NODE environment (for RVIZ visualization) ###
+  <node pkg="gaden_environment" type="environment" name="environment" output="screen">
+    <param name="verbose" value="true"/>
+    <param name="wait_preprocessing" value="false"/>    	  ### wait for the ok from gaden_preprocessing before running
+    <param name="fixed_frame" value="local_map"/>
+
+    # Plot CAD models (Collada format .dae)
+    <param name="number_of_CAD" value="1"/>
+    <rosparam subst_value="True">
+      CAD_0: file://$(arg gadenPATH)/$(arg scenario)/cad_models/heightmap.stl
+      CAD_0_color: [0.92, 0.96, 0.96]
+    </rosparam>
+
+    # Plot 3D OccupancyGridmap
+    <param name="occupancy3D_data" value="$(arg gadenPATH)/$(arg scenario)/OccupancyGrid3D.csv" />
+
+
+    # Plot gas sources
+    <param name="number_of_sources" value="1"/>
+    <param name="source_0_position_x" value="$(arg source_location_x)"/>
+    <param name="source_0_position_y" value="$(arg source_location_y)"/>
+    <param name="source_0_position_z" value="$(arg source_location_z)"/>
+    <rosparam>
+      source_0_scale: 1
+      source_0_color: [0.0, 1.0, 0.0]
+    </rosparam>
+  </node>
+
+
+
+  ### NODE PLAYER ###
+  #-------------------
+  <node pkg="gaden_player" type="gaden_player" name="gaden_player" output="screen">
+    <param name="verbose" value="true" />
+    <param name="player_freq" value="1" />         ###(Hz) Freq for loading the simulation log_files
+    <param name="initial_iteration" value="500" />
+    <param name="num_simulators" value="1" />      ### Number of simulations to load [1-inf] (useful for multiple sources and gases)
+    <param name="fixed_frame" value="local_map"/>
+    <param name="scale_filament" value="0.2"/>
+    <param name="conc_threshold" value="0"/>
+    
+
+    <param name="occupancyFile" value="$(arg gadenPATH)/$(arg scenario)/OccupancyGrid3D.csv" />
+
+    # Data from the "filament_simulator" pkg. Multiple sources can be set here
+    <param name="simulation_data_0" value="$(arg gadenPATH)/$(arg scenario)/gas_simulations/$(arg simulation)/FilamentSimulation_gasType_0_sourcePosition_$(arg source_location_x)_$(arg source_location_y)_$(arg source_location_z)" />
+    <!-- <param name="simulation_data_0" value="/home/rprb/catkin_ws/src/gaden/test_env/Palheiros220323/gas_simulations/$(arg simulation)/FilamentSimulation_gasType_0_sourcePosition_$(arg source_location_x)_$(arg source_location_y)_$(arg source_location_z)" /> -->
+
+    # Loop options
+    <param name="allow_looping" value="true" />
+    <param name="loop_from_iteration" value="300" />
+    <param name="loop_to_iteration" value="899" />
+  </node>
+
+
+  ### SENSORS ###
+  #-------------------
+	<group ns="PID0">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID0" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid0_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid0_broadcaster" args="-105.8 96.0 3.0 0 0 0 local_map pid0_frame 100"/>
+	<group ns="PID1">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID1" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid1_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid1_broadcaster" args="-103.2 103.6 3.0 0 0 0 local_map pid1_frame 100"/>
+	<group ns="PID2">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID2" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid2_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid2_broadcaster" args="-101.0 109.5 3.0 0 0 0 local_map pid2_frame 100"/>
+	<group ns="PID3">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID3" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid3_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid3_broadcaster" args="-100.0 111.8 3.0 0 0 0 local_map pid3_frame 100"/>
+	<group ns="PID4">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID4" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid4_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid4_broadcaster" args="-96.9 120.7 3.0 0 0 0 local_map pid4_frame 100"/>
+	<group ns="PID5">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID5" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid5_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid5_broadcaster" args="-95.3 124.5 3.0 0 0 0 local_map pid5_frame 100"/>
+	<group ns="PID6">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID6" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid6_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid6_broadcaster" args="-94.5 127.5 3.0 0 0 0 local_map pid6_frame 100"/>
+	<group ns="PID7">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID7" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid7_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid7_broadcaster" args="-93.5 130.7 3.0 0 0 0 local_map pid7_frame 100"/>
+	<group ns="PID8">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID8" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid8_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid8_broadcaster" args="-92.3 133.7 3.0 0 0 0 local_map pid8_frame 100"/>
+	<group ns="PID9">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID9" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid9_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid9_broadcaster" args="-91.5 136.4 3.0 0 0 0 local_map pid9_frame 100"/>
+	<group ns="PID10">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID10" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid10_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid10_broadcaster" args="-90.4 140.1 3.0 0 0 0 local_map pid10_frame 100"/>
+	<group ns="PID11">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID11" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid11_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid11_broadcaster" args="-89.3 144.0 3.0 0 0 0 local_map pid11_frame 100"/>
+	<group ns="PID12">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID12" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid12_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid12_broadcaster" args="-88.0 148.6 3.0 0 0 0 local_map pid12_frame 100"/>
+	<group ns="PID13">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID13" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid13_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid13_broadcaster" args="-86.4 153.5 3.0 0 0 0 local_map pid13_frame 100"/>
+	<group ns="PID14">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID14" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid14_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid14_broadcaster" args="-85.9 155.5 3.0 0 0 0 local_map pid14_frame 100"/>
+	<group ns="PID15">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID15" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid15_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid15_broadcaster" args="-85.1 158.8 3.0 0 0 0 local_map pid15_frame 100"/>
+	<group ns="PID16">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID16" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid16_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid16_broadcaster" args="-84.2 162.7 3.0 0 0 0 local_map pid16_frame 100"/>
+	<group ns="PID17">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID17" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid17_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid17_broadcaster" args="-83.4 165.7 3.0 0 0 0 local_map pid17_frame 100"/>
+	<group ns="PID18">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID18" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid18_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid18_broadcaster" args="-82.9 167.2 3.0 0 0 0 local_map pid18_frame 100"/>
+	<group ns="PID19">
+		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID19" output="screen">
+			<param name="/sensor_model" value="30"/>
+			<param name="/sensor_frame" value="pid19_frame"/>
+			<param name="/fixed_frame" value="local_map"/>
+			<param name="/noise_std" value="0.0"/>
+		</node>
+	</group>
+	<node pkg="tf" type="static_transform_publisher" name="pid19_broadcaster" args="-82.5 169.3 3.0 0 0 0 local_map pid19_frame 100"/>
+</launch>

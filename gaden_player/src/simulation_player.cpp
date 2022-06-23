@@ -166,6 +166,7 @@ void loadNodeParameters(ros::NodeHandle private_nh)
     private_nh.param<int>("loop_to_iteration", loop_to_iteration, 1);
     private_nh.param<std::string>("fixed_frame", fixed_frame, "");
     private_nh.param<double>("scale_filament", scale_filament, 0.1);
+    private_nh.param<double>("conc_threshold", conc_threshold, 0);
     
 }
 
@@ -719,7 +720,7 @@ void sim_obj::get_concentration_as_markers(visualization_msgs::Marker &mkr_point
                         p.z = env_min_z + (k+0.5)*environment_cell_size + ((rand()%100)/100.0f)*environment_cell_size;
 
                         //Set color of particle according to gas type
-                        color.a = 1.0;
+                        color.a = 0.0;
                         if (!strcmp(gas_type.c_str(),"ethanol"))
                         {
                             color.r=0.2; color.g=0.9; color.b=0;
@@ -782,19 +783,35 @@ void sim_obj::get_concentration_as_markers(visualization_msgs::Marker &mkr_point
             std_msgs::ColorRGBA color;  //Color of point
 
             Vec4 filament = it->second;
-            for (int i=0; i<5; i++){
-                p.x=(filament.x)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
-                p.y=(filament.y)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
-                p.z=(filament.z)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
+            // for (int i=0; i<5; i++){
+                // p.x=(filament.x)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
+                // p.y=(filament.y)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
+                // p.z=(filament.z)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
 
-                color.a=1;
-                color.r=0;
-                color.g=1;
-                color.b=0;
-                //Add particle marker
-                mkr_points.points.push_back(p);
-                mkr_points.colors.push_back(color);
-            }
+                p.x=(filament.x);
+                p.y=(filament.y);
+                p.z=(filament.z);
+
+                if(concentration_from_filament(p.x, p.y, p.z, filament) > conc_threshold){
+
+                    color.a=0.1;
+                    color.r=0;
+                    color.g=1;
+                    color.b=0;
+                    //Add particle marker
+                    mkr_points.points.push_back(p);
+                    mkr_points.colors.push_back(color);
+                }
+                else{
+                    color.a=0;
+                    color.r=0;
+                    color.g=1;
+                    color.b=0;
+                    //Add particle marker
+                    mkr_points.points.push_back(p);
+                    mkr_points.colors.push_back(color);
+                }
+            // }
         }
     }
 }

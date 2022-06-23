@@ -124,6 +124,7 @@ bool                            allow_looping;
 std::string                     occupancyFile;
 std::string                     fixed_frame;
 double                          scale_filament;
+double                          conc_threshold;
 
 //Visualization
 ros::Publisher                  marker_pub;
