@@ -5,12 +5,14 @@
     <!-- <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" /> -->
     <!-- <arg name="datasetWind" default="sim_1ms/palh_1ms_" /> -->
     <arg name="scenario" default="Palheiros220328" />
-    <arg name="simulation" default="05_30_100_50_02" />
+    <!--<arg name="simulation" default="05_30_100_50_02" /> -->
+    <arg name="simulation" default="1000_27_10_180_0001" />
 
     # OdorSource 1
-    <arg name="source_location_x" default="-90.00" />
-    <arg name="source_location_y" default="670.00" />
+    <arg name="source_location_x" default="-82.50" />
+    <arg name="source_location_y" default="170.00" />
     <arg name="source_location_z" default="3.00" />
+
 
 
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg gadenPATH)/$(arg scenario)_robot/occupancy.yaml">
