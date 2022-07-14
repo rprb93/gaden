@@ -1,12 +1,16 @@
 <!-- mission file for GADEN player -->
 
 <launch>
-    <arg name="gadenPATH" default="/media/rprb/Data1TB/GADEN" />
+    <!--<arg name="gadenPATH" default="/media/rprb/Data1TB/GADEN" /> -->
+    <arg name="gadenPATH" default="/home/hm/GadenSimulations/" />
     <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" />
+
+
     <arg name="datasetWind" default="sim_1ms/palh_1ms_" />
     <arg name="scenario" default="Palheiros220402" />
     <arg name="simulation" default="10_30_100_50_02" />
     <arg name="gas_type" default="0" />
+
 
     # OdorSource 1
     <arg name="source_location_x" default="-90.00" />
@@ -263,7 +267,7 @@
     </node>
   </group>
   <node pkg="tf" type="static_transform_publisher" name="drone1_pid1_broadcaster" args="0.0 0.0 0.5 0 0 0 drone1_local_base_link drone1_pid1_frame 100" />
-
+<!-- 
   <group ns="drone1/PID2">
     <node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="drone1_PID2" output="screen">
         <param name="/sensor_model" value="30" />
@@ -303,7 +307,7 @@
     </node>
   </group>
   <node pkg="tf" type="static_transform_publisher" name="drone1_pid5_broadcaster" args="0.0 0.0 4.5 0 0 0 drone1_local_base_link drone1_pid5_frame 100" />
-
+-->
 
 
 
@@ -490,7 +494,7 @@
     </node>
   </group>
   <node pkg="tf" type="static_transform_publisher" name="drone1_anemometer1_broadcaster" args="0.0 0.0 0.5 1.57 0 0 drone1_local_base_link drone1_anemometer1_frame 100" />
-
+ <!--
   <group ns="drone1/Anemometer2">
     <node pkg="simulated_anemometer" type="simulated_anemometer" name="drone1_anemometer2" output="screen">
       <param name="/sensor_frame" value="drone1_anemometer2_frame" />
@@ -530,5 +534,5 @@
     </node>
   </group>
   <node pkg="tf" type="static_transform_publisher" name="drone1_anemometer5_broadcaster" args="0.0 0.0 4.5 1.57 0 0 drone1_local_base_link drone1_anemometer5_frame 100" />
-
+-->
 </launch>
