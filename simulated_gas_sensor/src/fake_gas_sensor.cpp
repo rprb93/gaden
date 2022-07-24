@@ -121,7 +121,7 @@ int main( int argc, char** argv )
                     sensor_msg.raw_air = Sensitivity_Air[input_sensor_model]*R0[input_sensor_model];
                     sensor_msg.calib_A = sensitivity_lineloglog[input_sensor_model][0][0];  //Calib for Ethanol
                     sensor_msg.calib_B = sensitivity_lineloglog[input_sensor_model][0][1];  //Calib for Ethanol
-                    sensor_msg.r0 = R0[input_sensor_model];
+                    // sensor_msg.r0 = R0[input_sensor_model];
                     break;
                 case 1:  //MOX TGS2600
                     sensor_msg.technology = sensor_msg.TECH_MOX;
@@ -132,7 +132,7 @@ int main( int argc, char** argv )
                     sensor_msg.raw_air = Sensitivity_Air[input_sensor_model]*R0[input_sensor_model];
                     sensor_msg.calib_A = sensitivity_lineloglog[input_sensor_model][0][0];  //Calib for Ethanol
                     sensor_msg.calib_B = sensitivity_lineloglog[input_sensor_model][0][1];  //Calib for Ethanol
-                    sensor_msg.r0 = R0[input_sensor_model];
+                    // sensor_msg.r0 = R0[input_sensor_model];
                     break;
                 case 2:  //MOX TGS2611
                     sensor_msg.technology = sensor_msg.TECH_MOX;
@@ -143,7 +143,7 @@ int main( int argc, char** argv )
                     sensor_msg.raw_air = Sensitivity_Air[input_sensor_model]*R0[input_sensor_model];
                     sensor_msg.calib_A = sensitivity_lineloglog[input_sensor_model][0][0];  //Calib for Ethanol
                     sensor_msg.calib_B = sensitivity_lineloglog[input_sensor_model][0][1];  //Calib for Ethanol
-                    sensor_msg.r0 = R0[input_sensor_model];
+                    // sensor_msg.r0 = R0[input_sensor_model];
                     break;
                 case 3:  //MOX TGS2610
                     sensor_msg.technology = sensor_msg.TECH_MOX;
@@ -154,7 +154,7 @@ int main( int argc, char** argv )
                     sensor_msg.raw_air = Sensitivity_Air[input_sensor_model]*R0[input_sensor_model];
                     sensor_msg.calib_A = sensitivity_lineloglog[input_sensor_model][0][0];  //Calib for Ethanol
                     sensor_msg.calib_B = sensitivity_lineloglog[input_sensor_model][0][1];  //Calib for Ethanol
-                    sensor_msg.r0 = R0[input_sensor_model];
+                    // sensor_msg.r0 = R0[input_sensor_model];
                     break;
                 case 4:  //MOX TGS2612
                     sensor_msg.technology = sensor_msg.TECH_MOX;
@@ -165,7 +165,7 @@ int main( int argc, char** argv )
                     sensor_msg.raw_air = Sensitivity_Air[input_sensor_model]*R0[input_sensor_model];
                     sensor_msg.calib_A = sensitivity_lineloglog[input_sensor_model][0][0];  //Calib for Ethanol
                     sensor_msg.calib_B = sensitivity_lineloglog[input_sensor_model][0][1];  //Calib for Ethanol
-                    sensor_msg.r0 = R0[input_sensor_model];
+                    // sensor_msg.r0 = R0[input_sensor_model];
                     break;
 
 
