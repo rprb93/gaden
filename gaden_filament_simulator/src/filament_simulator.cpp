@@ -160,7 +160,7 @@ void CFilamentSimulator::loadNodeParameters()
 	numSteps = floor(max_sim_time/time_step);
 
     // Num of filaments/sec
-	private_nh.param<int>("num_filaments_sec", numFilaments_sec, 100);
+	private_nh.param<double>("num_filaments_sec", numFilaments_sec, 100);
     private_nh.param<bool>("variable_rate", variable_rate, false);
 	numFilaments_step = numFilaments_sec * time_step;
 	numFilament_aux=0;
@@ -241,7 +241,7 @@ void CFilamentSimulator::loadNodeParameters()
         ROS_INFO("[filament] Simulation Time        %f(s)",max_sim_time);
         ROS_INFO("[filament] Gas Time Step:         %f(s)",time_step);
         ROS_INFO("[filament] Num_steps:             %d",numSteps);
-        ROS_INFO("[filament] Number of filaments:   %d",numFilaments_sec);
+        ROS_INFO("[filament] Number of filaments:   %f",numFilaments_sec);
         ROS_INFO("[filament] PPM filament center    %f",filament_ppm_center);
         ROS_INFO("[filament] Gas type:              %d",gasType);
         ROS_INFO("[filament] Concentration unit:    %d",gasConc_unit);

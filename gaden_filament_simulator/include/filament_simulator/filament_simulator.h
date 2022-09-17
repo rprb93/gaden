@@ -57,7 +57,7 @@ public:
     double      max_sim_time;           //(sec) Time tu run this simulation
     int			numSteps;               //Number of gas iterations to simulate
     double		time_step;              //(sec) Time increment between gas snapshots --> Simul_time = snapshots*time_step
-    int			numFilaments_sec;       //Num of filaments released per second
+    double		numFilaments_sec;       //Num of filaments released per second
     bool        variable_rate;          //If true the number of released filaments would be random(0,numFilaments_sec)
     
     int         filament_stop_steps;    //Number of steps to wait between the release of filaments (to force a patchy plume)
@@ -142,7 +142,8 @@ protected:
         // SpecificGravity(Air) = 1 (as reference)
         // Specific gravity is the ratio of the density of a substance to the density of a reference substance; equivalently,
         // it is the ratio of the mass of a substance to the mass of a reference substance for the same given volume.
-        1.0378,	  //ethanol   (heavier than air)
+        // 1.0378,	  //ethanol   (heavier than air)
+        1.000,	  //ethanol   (heavier than air)
         0.5537,	  //methane   (lighter than air)
         0.0696,	  //hydrogen  (lighter than air)
         1.4529,	  //acetone   (heavier than air)

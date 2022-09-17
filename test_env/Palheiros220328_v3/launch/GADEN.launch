@@ -5,9 +5,9 @@
 <launch>
     <arg name="gadenPATH" default="/media/rprb-data1TB/GADEN" />
     <!-- <arg name="cfdPATH" default="/media/rprb-data1TB/CFD" /> -->
-    <arg name="cfdPATH" default="/home/rprb/catkin_ws/src/RepGaden/test_env/Palheiros220328/wind_simulations" />
-    <arg name="datasetWind" default="sim_1ms/palh220328_" />
-    <arg name="scenario" default="Palheiros220328" />
+    <arg name="cfdPATH" default="/home/rprb/catkin_ws/src/RepGaden/test_env/Palheiros220328_v3/wind_simulations" />
+    <arg name="datasetWind" default="sim_1ms/palh220328_v3_" />
+    <arg name="scenario" default="Palheiros220328_v3" />
     <arg name="simulation" default="1000_45_15_9000_0001" />
 
     # OdorSource 1
@@ -74,11 +74,11 @@
 	    # WindFlow data (from CFD)
         <!-- <param name="wind_data" value="$(arg cfdPATH)/$(arg scenario)/Paraview/$(arg datasetWind)" /> -->
         <param name="wind_data" value="$(arg cfdPATH)/$(arg datasetWind)" />
-	    <param name="wind_time_step" value="0.5" />                ### (sec) time increment between Wind snapshots
+	    <param name="wind_time_step" value="1" />                ### (sec) time increment between Wind snapshots
 	    # Loop options
         <param name="/allow_looping" value="true" />
-        <param name="/loop_from_step" value="300" />
-        <param name="/loop_to_step" value="599" />
+        <param name="/loop_from_step" value="600" />
+        <param name="/loop_to_step" value="1200" />
 	    
 	    # Location of the release point!t
 	    <param name="source_position_x" value="$(arg source_location_x)"/>            ### (m)
@@ -89,7 +89,7 @@
 	    <!-- <param name="restuls_time_step" value="0.5" />           #(sec) Time increment between saving state to file -->
         <param name="results_time_step" value="1" />           #(sec) Time increment between saving state to file
 
-	    <param name="results_min_time" value="900" />            #(sec) Time to start saving results to file
+	    <param name="results_min_time" value="1" />            #(sec) Time to start saving results to file
 	    <param name="results_location" value="$(arg gadenPATH)/$(arg scenario)/gas_simulations/$(arg simulation)" />
     </node>
 
