@@ -2,11 +2,11 @@
 
 <launch>
   <arg name="gadenPATH" default="/media/rprb/Data1TB/GADEN" />
-  <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" />
-  <arg name="datasetWind" default="sim_1ms/palh_1ms_" />
-  <arg name="scenario" default="Palheiros220328" />
-  <arg name="simulation" default="1000_45_10_9000_0001" />
-  <!-- <arg name="simulation" default="1000_27_10_180_0001" /> -->
+  <!-- <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" /> -->
+  <!-- <arg name="datasetWind" default="sim_1ms/palh_1ms_" /> -->
+  <arg name="scenario" default="Palheiros220328_v3" />
+  <!-- <arg name="simulation" default="1000_45_15_9000_0001" /> -->
+  <arg name="simulation" default="test3" />
   
 
   # OdorSource 1
@@ -15,7 +15,7 @@
   <arg name="source_location_z" default="3.00" />
 
 
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg gadenPATH)/$(arg scenario)_robot/occupancy.yaml">
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg gadenPATH)/Palheiros220328_robot/occupancy.yaml">
     <param name="frame_id" value="occ_map"/>
   </node>
 
@@ -59,12 +59,12 @@
   ### NODE PLAYER ###
   #-------------------
   <node pkg="gaden_player" type="gaden_player" name="gaden_player" output="screen">
-    <param name="verbose" value="true" />
+    <param name="verbose" value="false" />
     <param name="player_freq" value="10" />         ###(Hz) Freq for loading the simulation log_files
-    <param name="initial_iteration" value="500" />
+    <param name="initial_iteration" value="1" />
     <param name="num_simulators" value="1" />      ### Number of simulations to load [1-inf] (useful for multiple sources and gases)
     <param name="fixed_frame" value="local_map"/>
-    <param name="scale_filament" value="0.2"/>
+    <param name="scale_filament" value="1"/>
     <param name="conc_threshold" value="0"/>
     
 
@@ -74,16 +74,15 @@
     <param name="simulation_data_0" value="$(arg gadenPATH)/$(arg scenario)/gas_simulations/$(arg simulation)/FilamentSimulation_gasType_0_sourcePosition_$(arg source_location_x)_$(arg source_location_y)_$(arg source_location_z)" />
     <!-- <param name="simulation_data_0" value="/home/rprb/catkin_ws/src/gaden/test_env/Palheiros220323/gas_simulations/$(arg simulation)/FilamentSimulation_gasType_0_sourcePosition_$(arg source_location_x)_$(arg source_location_y)_$(arg source_location_z)" /> -->
 
-    # Loop options
     <param name="allow_looping" value="true" />
-    <param name="loop_from_iteration" value="300" />
-    <param name="loop_to_iteration" value="899" />
+    <param name="loop_from_iteration" value="500" />
+    <param name="loop_to_iteration" value="699" />
   </node>
 
 
   ### SENSORS ###
   #-------------------
-	<!-- <group ns="PID0">
+	<group ns="PID0">
 		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID0" output="screen">
 			<param name="/sensor_model" value="30"/>
 			<param name="/sensor_frame" value="pid0_frame"/>
@@ -218,7 +217,7 @@
 		</node>
 	</group>
 	<node pkg="tf" type="static_transform_publisher" name="pid14_broadcaster" args="-85.9 155.5 3.0 0 0 0 local_map pid14_frame 100"/>
-	<group ns="PID15">
+	<!-- <group ns="PID15">
 		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID15" output="screen">
 			<param name="/sensor_model" value="30"/>
 			<param name="/sensor_frame" value="pid15_frame"/>

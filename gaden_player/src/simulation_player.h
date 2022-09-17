@@ -64,6 +64,7 @@ public:
     double total_moles_in_filament;
     double num_moles_all_gases_in_cm3;
     std::map<int, Vec4> activeFilaments;
+    std::vector<std::map<int, Vec4>> dataMemory;
 
     std::vector<uint8_t> Env;
 

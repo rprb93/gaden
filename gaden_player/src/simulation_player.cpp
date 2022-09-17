@@ -91,6 +91,14 @@ int main( int argc, char** argv )
     mkr_gas_points.pose.orientation.w = 1.0;
 
 
+    ROS_INFO("Loading %i files to memory", loop_to_iteration);
+    for(int i=0; i < loop_to_iteration; i++){
+        load_all_data_from_logfiles(i);
+        if (verbose)
+            ROS_INFO("Save file %i | %i", i, loop_to_iteration);
+    }
+    ROS_INFO("Simulation Started");
+
     // Loop	
     ros::Rate r(100); //Set max rate at 100Hz (for handling services - Top Speed!!)
     int iteration_counter = initial_iteration;
@@ -102,7 +110,9 @@ int main( int argc, char** argv )
             if (verbose)
                 ROS_INFO("[Player] Playing simulation iteration %i", iteration_counter);
             //Read Gas and Wind data from log_files
-            load_all_data_from_logfiles(iteration_counter); //On the first time, we configure gas type, source pos, etc.
+            // load_all_data_from_logfiles(iteration_counter); //On the first time, we configure gas type, source pos, etc.
+            player_instances[0].activeFilaments = player_instances[0].dataMemory[iteration_counter];
+
             display_current_gas_distribution();    //Rviz visualization
             iteration_counter++;
 
@@ -116,6 +126,7 @@ int main( int argc, char** argv )
                        ROS_INFO("[Player] Looping");
                }
             }
+            // ROS_INFO("Time: %f:%ld\n",  (ros::Time::now() - time_last_loaded_file).toSec(), (ros::Time::now() - time_last_loaded_file).toNSec());
             time_last_loaded_file = ros::Time::now();
         }
 
@@ -201,6 +212,7 @@ void load_all_data_from_logfiles(int sim_iteration)
     {
         if (verbose)
             ROS_INFO("[Player] Loading new data to instance %i (iteration %i)",i,sim_iteration);
+
         player_instances[i].load_data_from_logfile(sim_iteration);
     }
 }
@@ -453,8 +465,9 @@ void sim_obj::load_binary_file(std::stringstream& decompressed){
         activeFilaments.insert(pair);
     }
 
-    load_wind_file(wind_index);
+    dataMemory.push_back(activeFilaments);
 
+    load_wind_file(wind_index);
 }
 
 void sim_obj::load_wind_file(int wind_index){

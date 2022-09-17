@@ -60,7 +60,7 @@ int main( int argc, char** argv )
 
     // Loop
 	tf::TransformListener listener;
-    node_rate = 2;  //Hz
+    node_rate = 10;  //Hz
     ros::Rate r(node_rate);
     first_reading = true;
     notified = false;
