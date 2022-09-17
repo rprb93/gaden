@@ -4,9 +4,10 @@
 
 <launch>
     <arg name="gadenPATH" default="/media/rprb-data1TB/GADEN" />
-    <arg name="cfdPATH" default="/media/rprb-data1TB/CFD" />
-    <arg name="datasetWind" default="sim_1ms/palh220328" />
-    <arg name="scenario" default="Palheiros220328" />
+    <!-- <arg name="cfdPATH" default="/media/rprb-data1TB/CFD" /> -->
+    <arg name="cfdPATH" default="/home/rprb/catkin_ws/src/RepGaden/test_env/Palheiros220328_v3/wind_simulations" />
+    <arg name="datasetWind" default="sim_1ms_20/palh220328_v3" />
+    <arg name="scenario" default="Palheiros220328_v3" />
     
     <node pkg="gaden_preprocessing" type="preprocessing" name="preprocessing" output="screen" >
      
@@ -23,13 +24,14 @@
         <param name="outlets_model_0" value="$(arg gadenPATH)/$(arg scenario)/cad_models/outlet.stl"/>
         
         #3D Location of a point in free-space
-        <param name="empty_point_x" value="-90"/>      ### (m)
-        <param name="empty_point_y" value="670"/>      ### (m)
-        <param name="empty_point_z" value="3"/>      ### (m)
+        <param name="empty_point_x" value="-82.50"/>    ### (m)
+        <param name="empty_point_y" value="170.00"/>    ### (m)
+        <param name="empty_point_z" value="3.00"/>      ### (m)
             
 
         #Wind Data (the node will append _i.csv to the name that is specified here)
-        <param name="wind_files" value="$(arg cfdPATH)/$(arg scenario)/Paraview/$(arg datasetWind)"/>
+        <!-- <param name="wind_files" value="$(arg cfdPATH)/$(arg scenario)/Paraview/$(arg datasetWind)"/> -->
+        <param name="wind_files" value="$(arg cfdPATH)/$(arg datasetWind)" />
 
         #Where to write the output files
         <param name="output_path" value="$(arg gadenPATH)/$(arg scenario)" />
