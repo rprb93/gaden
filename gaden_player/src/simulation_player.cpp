@@ -63,6 +63,8 @@ int main( int argc, char** argv )
 	ros::NodeHandle n;
     ros::NodeHandle pn("~");
 
+    int firstFile = 0;
+
     //Read Node Parameters
     loadNodeParameters(pn);	
 	
@@ -91,16 +93,25 @@ int main( int argc, char** argv )
     mkr_gas_points.pose.orientation.w = 1.0;
 
 
-    ROS_INFO("Loading %i files to memory", loop_to_iteration);
-    for(int i=0; i < loop_to_iteration; i++){
+    if(initial_iteration < loop_from_iteration){
+        firstFile = initial_iteration;
+    }
+    else{
+        firstFile = loop_from_iteration;
+    }
+
+    ROS_INFO("Loading files to memory: %d | %d", firstFile, loop_to_iteration);
+    for(int i=firstFile; i < loop_to_iteration; i++){
         load_all_data_from_logfiles(i);
         if (verbose)
             ROS_INFO("Save file %i | %i", i, loop_to_iteration);
     }
     ROS_INFO("Simulation Started");
 
+    // ROS_INFO("Size Wind Vector %ld", player_instances[0].dataWindMemory_U.size());
+
     // Loop	
-    ros::Rate r(100); //Set max rate at 100Hz (for handling services - Top Speed!!)
+    ros::Rate r(200); //Set max rate at 100Hz (for handling services - Top Speed!!)
     int iteration_counter = initial_iteration;
     while (ros::ok())
     {        
@@ -111,7 +122,7 @@ int main( int argc, char** argv )
                 ROS_INFO("[Player] Playing simulation iteration %i", iteration_counter);
             //Read Gas and Wind data from log_files
             // load_all_data_from_logfiles(iteration_counter); //On the first time, we configure gas type, source pos, etc.
-            player_instances[0].activeFilaments = player_instances[0].dataMemory[iteration_counter];
+            player_instances[0].activeFilaments = player_instances[0].dataMemory[iteration_counter-firstFile];
 
             display_current_gas_distribution();    //Rviz visualization
             iteration_counter++;
@@ -480,6 +491,10 @@ void sim_obj::load_wind_file(int wind_index){
     infile.read((char*) V.data(), sizeof(double)* U.size());
     infile.read((char*) W.data(), sizeof(double)* U.size());
     infile.close();
+
+    // dataWindMemory_U.push_back(U);
+    // dataWindMemory_V.push_back(V);
+    // dataWindMemory_W.push_back(W);
 }
 
 //Get Gas concentration at lcoation (x,y,z)

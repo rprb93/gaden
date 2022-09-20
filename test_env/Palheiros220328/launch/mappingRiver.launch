@@ -83,7 +83,7 @@
 
   ### SENSORS ###
   #-------------------
-	<!-- <group ns="PID0">
+	<group ns="PID0">
 		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID0" output="screen">
 			<param name="/sensor_model" value="30"/>
 			<param name="/sensor_frame" value="pid0_frame"/>
@@ -218,7 +218,7 @@
 		</node>
 	</group>
 	<node pkg="tf" type="static_transform_publisher" name="pid14_broadcaster" args="-85.9 155.5 3.0 0 0 0 local_map pid14_frame 100"/>
-	<group ns="PID15">
+	<!-- <group ns="PID15">
 		<node pkg="simulated_gas_sensor" type="simulated_gas_sensor" name="PID15" output="screen">
 			<param name="/sensor_model" value="30"/>
 			<param name="/sensor_frame" value="pid15_frame"/>

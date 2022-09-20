@@ -65,6 +65,9 @@ public:
     double num_moles_all_gases_in_cm3;
     std::map<int, Vec4> activeFilaments;
     std::vector<std::map<int, Vec4>> dataMemory;
+    // std::vector< std::vector<double> > dataWindMemory_U;
+    // std::vector< std::vector<double> > dataWindMemory_V;
+    // std::vector< std::vector<double> > dataWindMemory_W;
 
     std::vector<uint8_t> Env;
 

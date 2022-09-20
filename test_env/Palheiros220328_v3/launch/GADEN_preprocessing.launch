@@ -3,9 +3,8 @@
 -->
 
 <launch>
-    <arg name="gadenPATH" default="/media/rprb-data1TB/GADEN" />
-    <!-- <arg name="cfdPATH" default="/media/rprb-data1TB/CFD" /> -->
-    <arg name="cfdPATH" default="/home/rprb/catkin_ws/src/RepGaden/test_env/Palheiros220328_v3/wind_simulations" />
+    <arg name="gadenPATH" default="/media/rprb/Data1TB/GADEN" />
+    <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" />
     <arg name="datasetWind" default="sim_1ms_20/palh220328_v3" />
     <arg name="scenario" default="Palheiros220328_v3" />
     
@@ -30,8 +29,7 @@
             
 
         #Wind Data (the node will append _i.csv to the name that is specified here)
-        <!-- <param name="wind_files" value="$(arg cfdPATH)/$(arg scenario)/Paraview/$(arg datasetWind)"/> -->
-        <param name="wind_files" value="$(arg cfdPATH)/$(arg datasetWind)" />
+        <param name="wind_files" value="$(arg cfdPATH)/$(arg scenario)/Paraview/$(arg datasetWind)"/>
 
         #Where to write the output files
         <param name="output_path" value="$(arg gadenPATH)/$(arg scenario)" />
