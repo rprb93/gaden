@@ -107,22 +107,6 @@ CFilamentSimulator::CFilamentSimulator()
     if (verbose) ROS_INFO("[filament] env_cell_numMoles [mol]: %E",env_cell_numMoles);
     if (verbose) ROS_INFO("[filament] filament_numMoles_of_gas [mol]: %E",filament_numMoles_of_gas);
 
-	// Molecular gas mass [g/mol]
-	// SpecificGravity(Air) = 1 (as reference)
-	// Specific gravity is the ratio of the density of a substance to the density of a reference substance; equivalently,
-	// it is the ratio of the mass of a substance to the mass of a reference substance for the same given volume.
-	SpecificGravity[0] = 1.0378;	  //ethanol   (heavier than air)
-    SpecificGravity[1] = 0.5537;	  //methane   (lighter than air)
-	SpecificGravity[2] = 0.0696;	  //hydrogen  (lighter than air)
-	SpecificGravity[6] = 1.4529;	  //acetone   (heavier than air)
-
-	//To be updated
-	SpecificGravity[3] = 58.124;	 //propanol   //gases heavier then air
-	SpecificGravity[4] = 70.906;	 //chlorine
-	SpecificGravity[5] = 37.996;	 //fluorine
-	SpecificGravity[7] = 20.179;	 //neon	   //gases lighter than air
-	SpecificGravity[8] = 4.002602;   //helium
-	SpecificGravity[9] = 26.966;	 //hot_air
 
 
 	//Init visualization
@@ -176,7 +160,7 @@ void CFilamentSimulator::loadNodeParameters()
 	numSteps = floor(max_sim_time/time_step);
 
     // Num of filaments/sec
-	private_nh.param<int>("num_filaments_sec", numFilaments_sec, 100);
+	private_nh.param<double>("num_filaments_sec", numFilaments_sec, 100);
     private_nh.param<bool>("variable_rate", variable_rate, false);
 	numFilaments_step = numFilaments_sec * time_step;
 	numFilament_aux=0;
@@ -254,10 +238,10 @@ void CFilamentSimulator::loadNodeParameters()
     if (verbose)
     {
         ROS_INFO("[filament] The data provided in the roslaunch file is:");
-        ROS_INFO("[filament] Simulation Time        %f(s)",sim_time);
+        ROS_INFO("[filament] Simulation Time        %f(s)",max_sim_time);
         ROS_INFO("[filament] Gas Time Step:         %f(s)",time_step);
         ROS_INFO("[filament] Num_steps:             %d",numSteps);
-        ROS_INFO("[filament] Number of filaments:   %d",numFilaments_sec);
+        ROS_INFO("[filament] Number of filaments:   %f",numFilaments_sec);
         ROS_INFO("[filament] PPM filament center    %f",filament_ppm_center);
         ROS_INFO("[filament] Gas type:              %d",gasType);
         ROS_INFO("[filament] Concentration unit:    %d",gasConc_unit);
@@ -325,6 +309,8 @@ void CFilamentSimulator::read_wind_snapshot(int idx)
 	std::string W_filename = boost::str( boost::format("%s%i.csv_W") % wind_files_location % idx );
 
     if (verbose) ROS_INFO("Reading Wind Snapshot %s",U_filename.c_str());
+
+	std::cout<< boost::str( boost::format("Reading Wind Snapshot %s") % U_filename.c_str()) << "\n";
 
     //read data to 3D matrices
 	if (FILE *file = fopen(U_filename.c_str(), "r"))

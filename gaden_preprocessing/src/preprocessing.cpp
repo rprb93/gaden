@@ -124,7 +124,7 @@ void printMap(std::string filename, int scale){
 
 }
 
-void printEnv(std::string filename, int scale)
+void printEnv(std::string filename)
 {
     std::ofstream outfile(filename.c_str());
     
@@ -132,25 +132,20 @@ void printEnv(std::string filename, int scale)
     outfile <<  "#env_max(m) " << env_max_x << " " << env_max_y << " " << env_max_z << "\n";
     outfile <<  "#num_cells " << env[0].size() << " " << env.size() << " " << env[0][0].size() << "\n";
     outfile <<  "#cell_size(m) " << cell_size << "\n";
-    //things are repeated to scale them up (the image is too small!)
+    
     for (int height = 0; height < env[0][0].size(); height++)
     {
         for (int col = 0; col <env[0].size(); col++)
         {
-            for (int j = 0; j < scale; j++)
+            for (int row = 0; row <env.size(); row++)
             {
-                for (int row = 0; row <env.size(); row++)
-                {
-                    for (int i = 0; i < scale; i++)
-                    {
-                        outfile << (env[row][col][height]==cell_state::empty? 0 :
-                                (env[row][col][height]==cell_state::outlet? 2 :
-                                1))
-                                << " ";
-                    }
-                }
-                outfile << "\n";
+                outfile << (env[row][col][height]==cell_state::empty? 0 :
+                        (env[row][col][height]==cell_state::outlet? 2 :
+                        1))
+                        << " ";
+                
             }
+            outfile << "\n";
         }
         outfile << ";\n";
     }
@@ -179,6 +174,11 @@ void printWind(std::vector<double> U,
     fileU.close();
     fileV.close();
     fileW.close();
+
+    std::cout<< boost::str(boost::format("%s_U") % filename).c_str() << "\n";
+    std::cout<< boost::str(boost::format("%s_V") % filename).c_str() << "\n";
+    std::cout<< boost::str(boost::format("%s_W") % filename).c_str() << "\n";
+
 }
 
 void printYaml(std::string output){
@@ -491,7 +491,6 @@ void parse(std::string filename, cell_state value_to_write){
     
     //OK, we have read the data, let's do something with it
     occupy(triangles, normals, value_to_write);
-
 }
 
 void findDimensions(std::string filename){
@@ -586,7 +585,6 @@ int indexFrom3D(int x, int y, int z){
 
 void openFoam_to_gaden(std::string filename)
 {
-
 	//let's parse the file
 	std::ifstream infile(filename.c_str());
 	std::string line;
@@ -744,6 +742,7 @@ int main(int argc, char **argv){
     ros::Time start = ros::Time::now();
     for (int i = 0; i < numModels; i++)
     {
+        std::cout << CADfiles[i] << std::endl;
         parse(CADfiles[i], cell_state::occupied);
     }
       
@@ -772,6 +771,7 @@ int main(int argc, char **argv){
     }
 
     for (int i=0;i<numOutletModels; i++){
+        std::cout << outletFiles[i] << std::endl;
         parse(outletFiles[i], cell_state::outlet);
     }  
 
@@ -794,8 +794,9 @@ int main(int argc, char **argv){
     if(worldFile!="")
         changeWorldFile(worldFile);
 
+
     //output - path, occupancy vector, scale
-    printEnv(boost::str(boost::format("%s/OccupancyGrid3D.csv") % output.c_str()), 1);
+    printEnv(boost::str(boost::format("%s/OccupancyGrid3D.csv") % output.c_str()));
     printYaml(output);
 
     //-------------------------
@@ -813,9 +814,9 @@ int main(int argc, char **argv){
     int idx = 0;
 
     if(uniformWind){
-        
         //let's parse the file
         std::ifstream infile(windFileName);
+
         std::string line;
 
         std::vector<double> U(env[0].size()*env.size()*env[0][0].size());
@@ -853,6 +854,7 @@ int main(int argc, char **argv){
     }else{
         while (FILE *file = fopen(boost::str(boost::format("%s_%i.csv") % windFileName % idx).c_str(), "r"))
         {
+            std::cout<< boost::str(boost::format("%s_%i.csv") % windFileName % idx).c_str() << "\n";
             fclose(file);
             openFoam_to_gaden(boost::str(boost::format("%s_%i.csv") % windFileName % idx).c_str());
             idx++;

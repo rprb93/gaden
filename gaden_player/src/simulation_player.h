@@ -2,6 +2,7 @@
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <tf/transform_listener.h>
+#include <std_msgs/Bool.h>
 #include <std_msgs/Float32.h>
 #include <std_msgs/Float32MultiArray.h>
 #include <visualization_msgs/Marker.h>
@@ -64,6 +65,10 @@ public:
     double total_moles_in_filament;
     double num_moles_all_gases_in_cm3;
     std::map<int, Vec4> activeFilaments;
+    std::vector<std::map<int, Vec4>> dataMemory;
+    // std::vector< std::vector<double> > dataWindMemory_U;
+    // std::vector< std::vector<double> > dataWindMemory_V;
+    // std::vector< std::vector<double> > dataWindMemory_W;
 
     std::vector<uint8_t> Env;
 
@@ -89,7 +94,7 @@ public:
 
     int indexFrom3D(int x, int y, int z);
 
-    std::string gasTypesByCode[13] = {
+    std::string gasTypesByCode[14] = {
         "ethanol",
 		"methane",
 		"hydrogen",
@@ -99,10 +104,11 @@ public:
 		"acetone",
 		"neon",
 		"helium",
-		"hot_air",
 		"biogas",
+        "butane",
 		"carbon dioxide",
-		"carbon monoxide"
+		"carbon monoxide",
+        "smoke"
     };
 };
 
@@ -123,6 +129,7 @@ bool                            allow_looping;
 std::string                     occupancyFile;
 std::string                     fixed_frame;
 double                          scale_filament;
+double                          conc_threshold;
 
 //Visualization
 ros::Publisher                  marker_pub;

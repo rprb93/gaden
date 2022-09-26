@@ -43,7 +43,13 @@ bool get_gas_value_srv(gaden_player::GasPosition::Request  &req, gaden_player::G
 bool get_wind_value_srv(gaden_player::WindPosition::Request  &req, gaden_player::WindPosition::Response &res)
 {
     //Since the wind fields are identical among different instances, return just the information from instance[0]
-    player_instances[0].get_wind_value(req.x, req.y, req.z, res.u, res.v, res.w);
+    for(int i = 0; i<req.x.size(); i++){
+        double u, v, w;
+        player_instances[0].get_wind_value(req.x[i], req.y[i], req.z[i], u, v, w);
+        res.u.push_back(u);
+        res.v.push_back(v);
+        res.w.push_back(w);
+    }
     return true;
 }
 
@@ -57,6 +63,8 @@ int main( int argc, char** argv )
 	ros::NodeHandle n;
     ros::NodeHandle pn("~");
 
+    int firstFile = 0;
+
     //Read Node Parameters
     loadNodeParameters(pn);	
 	
@@ -66,6 +74,12 @@ int main( int argc, char** argv )
     //Services offered
     ros::ServiceServer serviceGas = n.advertiseService("odor_value", get_gas_value_srv);
     ros::ServiceServer serviceWind = n.advertiseService("wind_value", get_wind_value_srv);
+
+    ros::Publisher triggerPub = n.advertise<std_msgs::Bool>("player_trigger", 2);
+
+    std_msgs::Bool trig;
+    trig.data = 1;
+
 
     //Init variables        
     init_all_simulation_instances();
@@ -85,20 +99,41 @@ int main( int argc, char** argv )
     mkr_gas_points.pose.orientation.w = 1.0;
 
 
+    if(initial_iteration < loop_from_iteration){
+        firstFile = initial_iteration;
+    }
+    else{
+        firstFile = loop_from_iteration;
+    }
+
+    ROS_INFO("Loading files to memory: %d | %d", firstFile, loop_to_iteration);
+    for(int i=firstFile; i < loop_to_iteration; i++){
+        load_all_data_from_logfiles(i);
+        if (verbose)
+            ROS_INFO("Save file %i | %i", i, loop_to_iteration);
+    }
+    ROS_INFO("Simulation Started");
+
+    // ROS_INFO("Size Wind Vector %ld", player_instances[0].dataWindMemory_U.size());
+
     // Loop	
-    ros::Rate r(100); //Set max rate at 100Hz (for handling services - Top Speed!!)
+    ros::Rate r(200); //Set max rate at 100Hz (for handling services - Top Speed!!)
     int iteration_counter = initial_iteration;
     while (ros::ok())
     {        
         // ROS_INFO("Time: %f:%ld\n",  (ros::Time::now() - time_last_loaded_file).toSec(), (ros::Time::now() - time_last_loaded_file).toNSec());
         if( (ros::Time::now() - time_last_loaded_file).toSec() >= 1/player_freq )
         {
-            if (verbose)
-                ROS_INFO("[Player] Playing simulation iteration %i", iteration_counter);
+            //if (verbose)
+               // ROS_INFO("[Player] Playing simulation iteration %i", iteration_counter);
             //Read Gas and Wind data from log_files
-            load_all_data_from_logfiles(iteration_counter); //On the first time, we configure gas type, source pos, etc.
+            // load_all_data_from_logfiles(iteration_counter); //On the first time, we configure gas type, source pos, etc.
+            player_instances[0].activeFilaments = player_instances[0].dataMemory[iteration_counter-firstFile];
+
             display_current_gas_distribution();    //Rviz visualization
             iteration_counter++;
+
+            triggerPub.publish(trig);
 
             //Looping?
             if (allow_looping)
@@ -110,6 +145,7 @@ int main( int argc, char** argv )
                        ROS_INFO("[Player] Looping");
                }
             }
+            // ROS_INFO("Time: %f:%ld\n",  (ros::Time::now() - time_last_loaded_file).toSec(), (ros::Time::now() - time_last_loaded_file).toNSec());
             time_last_loaded_file = ros::Time::now();
         }
 
@@ -160,6 +196,7 @@ void loadNodeParameters(ros::NodeHandle private_nh)
     private_nh.param<int>("loop_to_iteration", loop_to_iteration, 1);
     private_nh.param<std::string>("fixed_frame", fixed_frame, "");
     private_nh.param<double>("scale_filament", scale_filament, 0.1);
+    private_nh.param<double>("conc_threshold", conc_threshold, 0);
     
 }
 
@@ -194,6 +231,7 @@ void load_all_data_from_logfiles(int sim_iteration)
     {
         if (verbose)
             ROS_INFO("[Player] Loading new data to instance %i (iteration %i)",i,sim_iteration);
+
         player_instances[i].load_data_from_logfile(sim_iteration);
     }
 }
@@ -446,8 +484,9 @@ void sim_obj::load_binary_file(std::stringstream& decompressed){
         activeFilaments.insert(pair);
     }
 
-    load_wind_file(wind_index);
+    dataMemory.push_back(activeFilaments);
 
+    load_wind_file(wind_index);
 }
 
 void sim_obj::load_wind_file(int wind_index){
@@ -460,6 +499,10 @@ void sim_obj::load_wind_file(int wind_index){
     infile.read((char*) V.data(), sizeof(double)* U.size());
     infile.read((char*) W.data(), sizeof(double)* U.size());
     infile.close();
+
+    // dataWindMemory_U.push_back(U);
+    // dataWindMemory_V.push_back(V);
+    // dataWindMemory_W.push_back(W);
 }
 
 //Get Gas concentration at lcoation (x,y,z)
@@ -713,7 +756,7 @@ void sim_obj::get_concentration_as_markers(visualization_msgs::Marker &mkr_point
                         p.z = env_min_z + (k+0.5)*environment_cell_size + ((rand()%100)/100.0f)*environment_cell_size;
 
                         //Set color of particle according to gas type
-                        color.a = 1.0;
+                        color.a = 0.0;
                         if (!strcmp(gas_type.c_str(),"ethanol"))
                         {
                             color.r=0.2; color.g=0.9; color.b=0;
@@ -776,19 +819,35 @@ void sim_obj::get_concentration_as_markers(visualization_msgs::Marker &mkr_point
             std_msgs::ColorRGBA color;  //Color of point
 
             Vec4 filament = it->second;
-            for (int i=0; i<5; i++){
-                p.x=(filament.x)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
-                p.y=(filament.y)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
-                p.z=(filament.z)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
+            // for (int i=0; i<5; i++){
+                // p.x=(filament.x)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
+                // p.y=(filament.y)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
+                // p.z=(filament.z)+((std::rand()%1000)/1000.0 -0.5) * filament.w/200;
 
-                color.a=1;
-                color.r=0;
-                color.g=1;
-                color.b=0;
-                //Add particle marker
-                mkr_points.points.push_back(p);
-                mkr_points.colors.push_back(color);
-            }
+                p.x=(filament.x);
+                p.y=(filament.y);
+                p.z=(filament.z);
+
+                if(concentration_from_filament(p.x, p.y, p.z, filament) > conc_threshold){
+
+                    color.a=0.1;
+                    color.r=0;
+                    color.g=1;
+                    color.b=0;
+                    //Add particle marker
+                    mkr_points.points.push_back(p);
+                    mkr_points.colors.push_back(color);
+                }
+                else{
+                    color.a=0;
+                    color.r=0;
+                    color.g=1;
+                    color.b=0;
+                    //Add particle marker
+                    mkr_points.points.push_back(p);
+                    mkr_points.colors.push_back(color);
+                }
+            // }
         }
     }
 }
