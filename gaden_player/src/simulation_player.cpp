@@ -525,7 +525,8 @@ void sim_obj::get_gas_concentration(float x, float y, float z, std::string &gas_
             Vec4 fil = it->second;
             double distSQR = (x-fil.x)*(x-fil.x) + (y-fil.y)*(y-fil.y) + (z-fil.z)*(z-fil.z);
 
-            double limitDistance = fil.w*5/100;
+            //double limitDistance = fil.w*5/100;
+            double limitDistance = 1.0;
             if(distSQR < limitDistance * limitDistance && check_environment_for_obstacle(x, y, z, fil.x, fil.y, fil.z)){
                 gas_conc += concentration_from_filament(x, y, z, fil);
             }
