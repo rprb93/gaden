@@ -60,7 +60,7 @@ int main( int argc, char** argv )
 
     // Loop
 	tf::TransformListener listener;
-    node_rate = 10;  //Hz
+    node_rate = 30;  //Hz
     ros::Rate r(node_rate);
     first_reading = true;
     notified = false;
@@ -319,6 +319,8 @@ float simulate_mox_as_line_loglog(gaden_player::GasPositionResponse GT_gas_conce
 // Simulate PID response : Weighted Sum of all gases
 float simulate_pid(gaden_player::GasPositionResponse GT_gas_concentrations)
 {
+    // ROS_INFO("size %f", GT_gas_concentrations.gas_conc[0]);
+
     //Handle multiple gases
     float accumulated_conc = 0.0;
     for (int i=0; i<GT_gas_concentrations.gas_conc.size(); i++)

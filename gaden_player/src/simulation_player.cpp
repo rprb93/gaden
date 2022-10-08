@@ -512,17 +512,23 @@ void sim_obj::get_gas_concentration(float x, float y, float z, std::string &gas_
         return;
     }
     if(filament_log){
+        // ROS_INFO("Debug 1");
         gas_conc=0;
         for(auto it = activeFilaments.begin(); it!=activeFilaments.end(); it++){
             Vec4 fil = it->second;
             double distSQR = (x-fil.x)*(x-fil.x) + (y-fil.y)*(y-fil.y) + (z-fil.z)*(z-fil.z);
 
-            double limitDistance = fil.w*5/100;
+            // double limitDistance = fil.w*5/100;
+
+            double limitDistance = 1;
+
+            // ROS_INFO("limit: %f", limitDistance);
             if(distSQR < limitDistance * limitDistance && check_environment_for_obstacle(x, y, z, fil.x, fil.y, fil.z)){
                 gas_conc += concentration_from_filament(x, y, z, fil);
             }
         }
     }else{
+        // ROS_INFO("Debug 2");
         //Get cell idx from point location
         int xx,yy,zz;
         xx = (int)ceil((x - env_min_x)/environment_cell_size);
@@ -821,7 +827,6 @@ void sim_obj::get_concentration_as_markers(visualization_msgs::Marker &mkr_point
                 p.z=(filament.z);
 
                 if(concentration_from_filament(p.x, p.y, p.z, filament) > conc_threshold){
-
                     color.a=0.1;
                     color.r=0;
                     color.g=1;
