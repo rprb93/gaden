@@ -3,12 +3,28 @@
 <launch>
     <arg name="gadenPATH" default="/media/rprb/Data1TB/GADEN" />
     <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" />
-    <arg name="scenario" default="Palheiros220328_v3" />
+    <arg name="scenario" default="Palheiros220328" />
+
+
+    <!-- <arg name="simulation" default="50_450_10_200_005_sim00" /> -->
+    <arg name="simulation" default="50_500_10_200_005_sim00" />
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <arg name="simulation" default="1000_27_10_180_0001" /> -->
+
+
 
     <!-- <arg name="simulation" default="1_12000_15_9000_005_sim60" /> -->
     <!-- <arg name="simulation" default="1_12000_15_9000_005_sim80" /> -->
-    <!-- <arg name="simulation" default="50_500_10_200_005_sim60" /> -->
-    <arg name="simulation" default="50_500_10_200_005_sim80" />
 
   # OdorSource 1
     <arg name="source_location_x" default="-82.50" />

@@ -4,12 +4,11 @@
 
 <launch>
     <arg name="gadenPATH" default="/media/rprb/Data1TB/GADEN" />
-    <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" />
-    <arg name="datasetWind" default="sim_1ms_80/palh220328_v3" />
-    <arg name="scenario" default="Palheiros220328_v3" />
+    <arg name="cfdPATH" default="/media/rprb/Data/CFD" />
+    <arg name="datasetWind" default="sim_1ms/palh220328" />
+    <arg name="scenario" default="Palheiros220328" />
 
-    <arg name="simulation" default="50_500_10_200_005_sim80" />
-
+    <arg name="simulation" default="50_500_10_200_005_sim00" />
 
     # OdorSource 1
     <arg name="source_location_x" default="-82.50" />
@@ -45,7 +44,7 @@
             source_0_color: [0.0, 1.0, 0.0] 
         </rosparam>
     </node>
-    <!-- <arg name="simulation" default="50_500_10_200_005_sim30" /> -->
+    
   
     ### Filament Simulator 1ms###
     <node pkg="gaden_filament_simulator" type="filament_simulator" name="filament_simulator" output="screen">
@@ -73,8 +72,8 @@
 	    <param name="wind_time_step" value="1" />                ### (sec) time increment between Wind snapshots
 	    # Loop options
         <param name="/allow_looping" value="true" />
-        <param name="/loop_from_step" value="600" />
-        <param name="/loop_to_step" value="1019" />
+        <param name="/loop_from_step" value="150" />
+        <param name="/loop_to_step" value="299" />
         <!-- <param name="/loop_from_step" value="500" />
         <param name="/loop_to_step" value="899" /> -->
 	    
