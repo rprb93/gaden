@@ -323,6 +323,8 @@ Visualization Manager:
         All Enabled: false
         fast_boat1:
           Value: true
+        fast_boat2:
+          Value: true
         local_map:
           Value: false
         occ_map:
@@ -338,6 +340,8 @@ Visualization Manager:
       Tree:
         local_map:
           fast_boat1:
+            {}
+          fast_boat2:
             {}
           occ_map:
             {}
@@ -5564,6 +5568,30 @@ Visualization Manager:
         4: true
       Queue Size: 100
       Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /fastboat2/Sensor_display
+      Name: Marker
+      Namespaces:
+        sensor_visualization: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /fastboat2/movement_decision/cog_react
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /fastboat2/particlefilter/particles
+      Name: MarkerArray
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 190; 184; 177
@@ -5627,5 +5655,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 991
-  X: 920
-  Y: 11
+  X: 918
+  Y: -12

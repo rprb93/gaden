@@ -15,7 +15,7 @@
 
     <!-- <arg name="simulation" default="150_130_10_180_005_sim00" /> -->
 
-    <arg name="simulation" default="50_500_10_200_005_sim60" />
+    <arg name="simulation" default="50_500_10_200_005_sim80" />
 
     # OdorSource 1
     <arg name="source_location_x" default="-82.50" />
