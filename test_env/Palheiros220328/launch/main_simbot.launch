@@ -5,12 +5,12 @@
     <!-- <arg name="cfdPATH" default="/media/rprb/Data1TB/CFD" /> -->
     <!-- <arg name="datasetWind" default="sim_1ms/palh_1ms_" /> -->
     <arg name="scenario" default="Palheiros220328" />
-    <!--<arg name="simulation" default="05_30_100_50_02" /> -->
+    <!-- <arg name="simulation" default="05_30_100_50_02" /> -->
 
-    <arg name="simulation" default="1000_27_10_180_0001" />
-    <!-- <arg name="simulation" default="1_12000_15_9000_005_sim30" /> -->
-    <!-- <arg name="simulation" default="1_12000_15_9000_005_sim60" /> -->
-    <!-- <arg name="simulation" default="1_12000_15_9000_005_sim80" /> -->
+    <!-- change iterations for this river file-->
+    <!-- <arg name="simulation" default="1000_27_10_180_0001" />-->
+
+     <arg name="simulation" default="50_500_10_200_005_sim80" />
 
     # OdorSource 1
     <arg name="source_location_x" default="-82.50" />
@@ -66,7 +66,7 @@
     <node pkg="gaden_player" type="gaden_player" name="gaden_player" output="screen">
     
       <param name="verbose" value="true" />
-	    <param name="player_freq" value="22" />         ###(Hz) Freq for loading the simulation log_files
+	    <param name="player_freq" value="1" />         ###(Hz) Freq for loading the simulation log_files
 	    <param name="initial_iteration" value="800" />
 	    <param name="num_simulators" value="1" />      ### Number of simulations to load [1-inf] (useful for multiple sources and gases)
       <param name="fixed_frame" value="local_map"/>
@@ -213,7 +213,7 @@
 
 
 
-
+<!-- with fast gaden, wind does not work
   <group ns="boat1/Anemometer4">
     <node pkg="simulated_anemometer" type="simulated_anemometer" name="boat1_anemometer4" output="screen">
       <param name="/sensor_frame" value="boat1_anemometer4_frame" />
@@ -323,6 +323,6 @@
     </node>
   </group>
   <node pkg="tf" type="static_transform_publisher" name="boat9_anemometer4_broadcaster" args="0.0 0.0 3.0 0 0 0 boat9_local_base_link boat9_anemometer4_frame 100" />
-
+-->
 
 </launch>
