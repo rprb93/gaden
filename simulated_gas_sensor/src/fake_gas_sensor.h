@@ -46,7 +46,8 @@
 int				input_sensor_model;
 std::string		input_sensor_frame;
 std::string		input_fixed_frame;
-bool            use_PID_correction_factors;
+bool           use_PID_correction_factors;
+float          PID_rate;
 
 //MOX model params
 bool first_reading;                 //First reading is set to baseline always

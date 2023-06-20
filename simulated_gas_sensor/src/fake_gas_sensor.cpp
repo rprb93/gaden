@@ -60,7 +60,7 @@ int main( int argc, char** argv )
 
     // Loop
 	tf::TransformListener listener;
-    node_rate = 30;  //Hz
+    node_rate = PID_rate;  //Hz
     ros::Rate r(node_rate);
     first_reading = true;
     notified = false;
@@ -366,13 +366,17 @@ void loadNodeParameters(ros::NodeHandle private_nh)
     //PID_correction_factors
     private_nh.param<bool>("use_PID_correction_factors", use_PID_correction_factors, false);
 
+    //PID_rate
+    private_nh.param<float>("PID_Rate", PID_rate, 1.0);
+
 
 
 
     ROS_INFO("The data provided in the roslaunch file is:");
 	ROS_INFO("Sensor model: %d",input_sensor_model);
 	ROS_INFO("Fixed frame: %s",input_fixed_frame.c_str());
-    ROS_INFO("Sensor frame: %s",input_sensor_frame.c_str());    
+    ROS_INFO("Sensor frame: %s",input_sensor_frame.c_str());
+    ROS_INFO("Sensor Rate: %f",PID_rate);      
 }
 
 
