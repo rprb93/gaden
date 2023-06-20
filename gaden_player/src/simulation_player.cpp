@@ -760,7 +760,8 @@ void sim_obj::get_concentration_as_markers(visualization_msgs::Marker &mkr_point
                         color.a = 0.0;
                         if (!strcmp(gas_type.c_str(),"ethanol"))
                         {
-                            color.r=0.2; color.g=0.9; color.b=0;
+                            //color.r=0.2; color.g=0.9; color.b=0;
+                            color.r=0.2; color.g=0.0; color.b=0.8;
                         }
                         else if (!strcmp(gas_type.c_str(),"methane"))
                         {
@@ -804,6 +805,8 @@ void sim_obj::get_concentration_as_markers(visualization_msgs::Marker &mkr_point
                             color.r = 0.9; color.g = 0;color.b = 0;
                         }
 
+                        color.r=0.0; color.g=0.8; color.b=0.8;
+
                         //Add particle marker
                         mkr_points.points.push_back(p);
                         mkr_points.colors.push_back(color);
@@ -830,11 +833,14 @@ void sim_obj::get_concentration_as_markers(visualization_msgs::Marker &mkr_point
                 p.z=(filament.z);
 
                 if(concentration_from_filament(p.x, p.y, p.z, filament) > conc_threshold){
-
                     color.a=0.1;
                     color.r=0;
-                    color.g=1;
-                    color.b=0;
+                    //color.g=1;
+                    //color.b=0;
+
+                    color.g=0.8;
+                    color.b=0.8;
+
                     //Add particle marker
                     mkr_points.points.push_back(p);
                     mkr_points.colors.push_back(color);
