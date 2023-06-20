@@ -1,7 +1,7 @@
 <!-- mission file for GADEN player -->
 
 <launch>
-    <arg name="gadenPATH" default="/home/hm/GadenSimulations/" />
+    <arg name="gadenPATH" default="/media/Data1TB/GADEN" />
     <arg name="cfdPATH" default="/media/Data1TB/CFD" />
     <arg name="datasetWind" default="sim_1ms_50/generic" />
     <arg name="scenario" default="Generic" />
@@ -23,7 +23,7 @@
 
 
     ### RVIZ ###
-    <node name="rviz" pkg="rviz" type="rviz" args="-d /home/hm/catkin_ws/src/gaden/test_env/generic/launch/gaden.rviz"/>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d /home/rprb/catkin_ws/src/gaden/test_env/generic/launch/gaden.rviz"/>
 
 
      ### NODE environment (for RVIZ visualization) ###
